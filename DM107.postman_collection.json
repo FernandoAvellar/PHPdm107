@@ -1,0 +1,112 @@
+{
+	"variables": [],
+	"info": {
+		"name": "DM107",
+		"_postman_id": "257db5ad-26af-6f60-9cce-5d8d22749ff7",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "GET Todas entregas - JAVA",
+			"request": {
+				"url": "http://localhost:8080/ProjetoFinalDM107/entrega",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Basic QURNSU46QURNSU4=",
+						"description": ""
+					}
+				],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "GET uma entrega - JAVA",
+			"request": {
+				"url": "http://localhost:8080/ProjetoFinalDM107/entrega/1",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Basic QURNSU46QURNSU4=",
+						"description": ""
+					}
+				],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Atualizar dados Entrega - PHP",
+			"request": {
+				"url": "http://localhost/phpdm107/src/public/entrega/3",
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Basic QURNSU46QURNSU4=",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"nomeRecebedor\": \"Michael\",\n    \"cpfRecebedor\": \"222.777.555-66\",\n    \"dataEntrega\": \"2017-11-01 09:45:00\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Delete entrega - PHP",
+			"request": {
+				"url": "http://localhost/phpdm107/src/public/entrega/2",
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Basic QURNSU46QURNSU4=",
+						"description": ""
+					}
+				],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "POST - Criar nova entrega - JAVA",
+			"request": {
+				"url": "http://localhost:8080/ProjetoFinalDM107/entrega",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Basic QURNSU46QURNSU4=",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"numeroPedido\" : \"3\",\n  \"idCliente\" : 3\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}
