@@ -10,7 +10,7 @@
 		{
 			"name": "GET Todas entregas - JAVA",
 			"request": {
-				"url": "http://localhost:8080/ProjetoFinalDM107/entrega",
+				"url": "http://localhost:8080/ProjetoFinalDM107_JAVA/entrega",
 				"method": "GET",
 				"header": [
 					{
@@ -27,7 +27,7 @@
 		{
 			"name": "GET uma entrega - JAVA",
 			"request": {
-				"url": "http://localhost:8080/ProjetoFinalDM107/entrega/1",
+				"url": "http://localhost:8080/ProjetoFinalDM107_JAVA/entrega/4",
 				"method": "GET",
 				"header": [
 					{
@@ -44,7 +44,7 @@
 		{
 			"name": "Atualizar dados Entrega - PHP",
 			"request": {
-				"url": "http://localhost/phpdm107/src/public/entrega/3",
+				"url": "http://localhost/phpdm107/src/public/entrega/4",
 				"method": "PUT",
 				"header": [
 					{
@@ -60,7 +60,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n  \"nomeRecebedor\": \"Michael\",\n    \"cpfRecebedor\": \"222.777.555-66\",\n    \"dataEntrega\": \"2017-11-01 09:45:00\"\n}"
+					"raw": "{\n  \"nomeRecebedor\": \"Ricardo Souza\",\n  \"cpfRecebedor\": \"222.333.555-66\",\n  \"dataEntrega\": \"2017-11-01 09:45:00\"\n}"
 				},
 				"description": ""
 			},
@@ -69,7 +69,7 @@
 		{
 			"name": "Delete entrega - PHP",
 			"request": {
-				"url": "http://localhost/phpdm107/src/public/entrega/2",
+				"url": "http://localhost/phpdm107/src/public/entrega/3",
 				"method": "DELETE",
 				"header": [
 					{
@@ -86,7 +86,7 @@
 		{
 			"name": "POST - Criar nova entrega - JAVA",
 			"request": {
-				"url": "http://localhost:8080/ProjetoFinalDM107/entrega",
+				"url": "http://localhost:8080/ProjetoFinalDM107_JAVA/entrega",
 				"method": "POST",
 				"header": [
 					{
@@ -102,7 +102,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n  \"numeroPedido\" : \"3\",\n  \"idCliente\" : 3\n}"
+					"raw": "{\n  \"numeroPedido\" : \"4\",\n  \"idCliente\" : 4\n}"
 				},
 				"description": ""
 			},

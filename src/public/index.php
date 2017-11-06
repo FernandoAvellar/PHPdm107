@@ -33,9 +33,9 @@
     {
         $app->add(new Tuupola\Middleware\HttpBasicAuthentication([ "users" => [ $databaseUsername => $databasePassword ] ]));
 
-        $app->put('/entrega/{id}', function(Request $request, Response $response){ 
+        $app->put('/entrega/{numeroPedido}', function(Request $request, Response $response){ 
 
-            $id = $request->getAttribute('id'); 
+            $numeroPedido = $request->getAttribute('numeroPedido'); 
 
             $parsedBody = $request->getParsedBody();
 
@@ -47,7 +47,7 @@
                             "cpfRecebedor" => $cpfRecebedor, 
                             "dataEntrega" => $dataEntrega);
 
-            $entregaParaSerAtualizada = $this->db->entrega()->where('id', $id);
+            $entregaParaSerAtualizada = $this->db->entrega()->where('numeroPedido', $numeroPedido);
 
             if (!$entregaParaSerAtualizada->fetch()) {
                 return $response->withStatus(404);
@@ -56,11 +56,11 @@
             $entregaParaSerAtualizada->update($array);
         });
 
-        $app->delete('/entrega/{id}', function(Request $request, Response $response){ 
+        $app->delete('/entrega/{numeroPedido}', function(Request $request, Response $response){ 
             
-                    $id = $request->getAttribute('id'); 
+                    $numeroPedido = $request->getAttribute('numeroPedido'); 
             
-                    $entregaASerDeletada = $this->db->entrega()->where('id', $id);
+                    $entregaASerDeletada = $this->db->entrega()->where('numeroPedido', $numeroPedido);
 
                     if (!$entregaASerDeletada->fetch()) {
                         return $response->withStatus(404);
