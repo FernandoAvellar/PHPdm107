@@ -13,10 +13,6 @@
     $app = new \Slim\App(["config" => $config]);
     $container = $app->getContainer();
 
-    $username = "ADMIN";
-    $password = "ADMIN";
-    $app->add(new Tuupola\Middleware\HttpBasicAuthentication([ "users" => [ $username => $password ] ]));
-
     $container['db'] = function ($c) { 
         $dbConfig = $c['config']['db']; 
         $pdo = new PDO("mysql:host=" . $dbConfig['host'] . ";dbname=" . $dbConfig['dbname'], $dbConfig['user'], $dbConfig['pass']); 
@@ -26,41 +22,67 @@
         return $db; 
     };
 
-    $app->put('/entrega/{numeroPedido}', function(Request $request, Response $response){ 
+    $headerUsername = $_SERVER['PHP_AUTH_USER'];
+    $headerPassword = $_SERVER['PHP_AUTH_PW'];
 
-        $numeroPedido = $request->getAttribute('numeroPedido'); 
+    $userDatabase = $container->db->usuario("usuario = ?", $headerUsername)->fetch();
+    $databaseUsername = $userDatabase['usuario'];
+    $databasePassword = $userDatabase['senha'];
 
-        $parsedBody = $request->getParsedBody();
+    if($headerUsername === $databaseUsername && $headerPassword === $databasePassword )
+    {
+        $app->add(new Tuupola\Middleware\HttpBasicAuthentication([ "users" => [ $databaseUsername => $databasePassword ] ]));
 
-        $nomeRecebedor = $parsedBody['nomeRecebedor'];
-        $cpfRecebedor = $parsedBody['cpfRecebedor'];
-        $dataEntrega = $parsedBody['dataEntrega'];    
+        $app->put('/entrega/{id}', function(Request $request, Response $response){ 
 
-        $array = array("nomeRecebedor" => $nomeRecebedor, 
-                        "cpfRecebedor" => $cpfRecebedor, 
-                        "dataEntrega" => $dataEntrega);
+            $id = $request->getAttribute('id'); 
 
-        $entregaParaSerAtualizada = $this->db->entrega()->where('numeroPedido', $numeroPedido);
+            $parsedBody = $request->getParsedBody();
 
-        if (!$entregaParaSerAtualizada->fetch()) {
-            return $response->withStatus(404);
-        }
+            $nomeRecebedor = $parsedBody['nomeRecebedor'];
+            $cpfRecebedor = $parsedBody['cpfRecebedor'];
+            $dataEntrega = $parsedBody['dataEntrega'];    
 
-        $entregaParaSerAtualizada->update($array);
-    });
+            $array = array("nomeRecebedor" => $nomeRecebedor, 
+                            "cpfRecebedor" => $cpfRecebedor, 
+                            "dataEntrega" => $dataEntrega);
 
-    $app->delete('/entrega/{numeroPedido}', function(Request $request, Response $response){ 
-        
-                $numeroPedido = $request->getAttribute('numeroPedido'); 
-        
-                $entregaASerDeletada = $this->db->entrega()->where('numeroPedido', $numeroPedido);
+            $entregaParaSerAtualizada = $this->db->entrega()->where('id', $id);
 
-                if (!$entregaASerDeletada->fetch()) {
-                    return $response->withStatus(404);
-                }
+            if (!$entregaParaSerAtualizada->fetch()) {
+                return $response->withStatus(404);
+            }
 
-                $entregaASerDeletada->delete();
-            });
+            $entregaParaSerAtualizada->update($array);
+        });
 
+        $app->delete('/entrega/{id}', function(Request $request, Response $response){ 
+            
+                    $id = $request->getAttribute('id'); 
+            
+                    $entregaASerDeletada = $this->db->entrega()->where('id', $id);
+
+                    if (!$entregaASerDeletada->fetch()) {
+                        return $response->withStatus(404);
+                    }
+
+                    $entregaASerDeletada->delete();
+                });
+
+    } else {
+        $app->add(new Tuupola\Middleware\HttpBasicAuthentication([
+            "users" => [
+                "ADMIN" => "ADMIN",
+                "USER" => "USER"
+            ],
+            "error" => function ($request, $response, $arguments) {
+                $data = [];
+                $data["status"] = "error";
+                $data["message"] = $arguments["message"];
+                return $response->write(json_encode($data, JSON_UNESCAPED_SLASHES));
+            }
+        ]));
+
+    }
     $app->run(); 
 ?>
