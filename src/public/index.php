@@ -22,8 +22,8 @@
         return $db; 
     };
 
-    $headerUsername = $_SERVER['PHP_AUTH_USER'];
-    $headerPassword = $_SERVER['PHP_AUTH_PW'];
+    $headerUsername = isset($_SERVER['PHP_AUTH_USER']) ? $_SERVER['PHP_AUTH_USER'] : null;
+    $headerPassword = isset($_SERVER['PHP_AUTH_PW']) ? $_SERVER['PHP_AUTH_PW'] : null;
 
     $userDatabase = $container->db->usuario("usuario = ?", $headerUsername)->fetch();
     $databaseUsername = $userDatabase['usuario'];
@@ -39,9 +39,9 @@
 
             $parsedBody = $request->getParsedBody();
 
-            $nomeRecebedor = $parsedBody['nomeRecebedor'];
-            $cpfRecebedor = $parsedBody['cpfRecebedor'];
-            $dataEntrega = $parsedBody['dataEntrega'];    
+            $nomeRecebedor = isset($parsedBody['nomeRecebedor']) ? $parsedBody['nomeRecebedor'] : "notPresentInBody";
+            $cpfRecebedor = isset($parsedBody['cpfRecebedor']) ? $parsedBody['cpfRecebedor'] : "notPresentInBody";
+            $dataEntrega = isset($parsedBody['dataEntrega']) ? $parsedBody['dataEntrega'] : "notPresentInBody";    
 
             $array = array("nomeRecebedor" => $nomeRecebedor, 
                             "cpfRecebedor" => $cpfRecebedor, 
@@ -51,6 +51,10 @@
 
             if (!$entregaParaSerAtualizada->fetch()) {
                 return $response->withStatus(404);
+            }
+
+            if($nomeRecebedor == "notPresentInBody" || $cpfRecebedor == "notPresentInBody" || $dataEntrega == "notPresentInBody") {
+                return $response->withStatus(400);
             }
 
             $entregaParaSerAtualizada->update($array);
